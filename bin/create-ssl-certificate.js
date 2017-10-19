@@ -1,7 +1,7 @@
 #! /usr/bin/env node
-const promisify = require('util').promisify;
-const exec = require('child_process').exec;
-const path = require('path');
+const promisify = require('util').promisify
+const exec = promisify(require('child_process').exec)
+const path = require('path')
 
 const colors = {
   white: '\x1b[37m',
@@ -55,42 +55,47 @@ function runSeries (...commands) {
 
 function pause () {
   return new Promise((resolve, reject) => {
-    process.stdin.setRawMode(true);
-    process.stdin.resume();
+    process.stdin.setRawMode(true)
+    process.stdin.resume()
     process.stdin.on('data', buffer => {
-      return buffer[0] === 3 ? reject() : resolve()
-    });
+      return buffer[0] === 3 ? reject('Ok, aborted opening the keychain.') : resolve()
+    })
   })
 }
 
 function isValid(text, type) {
   if (typeof text !== 'string' || !text.match(/^[a-zA-Z]+$/)) {
-    console.log(colors.red, `You did not pass in a valid ${type}`)
+    console.error(colors.red + `You did not pass in a valid ${type}`)
     process.exit(1)
   }
 
-  return true;
+  return true
 }
 
 function logAndAbort (error) {
-  console.log(colors.red, `Something wrong happened, ${error.message}`)
+  console.error(colors.red + `Something wrong happened, ${error.message}`)
   process.exit(1)
+}
+
+function abort (message) {
+  console.log(colors.red + message)
+  process.exit(0)
 }
 
 const config = process.argv.reduce((currentConfig, val, index, array) => {
   if (val === '--hostname' && isValid(array[index + 1], 'hostname')) {
-    currentConfig.hostname = array[index + 1];
+    currentConfig.hostname = array[index + 1]
   }
 
   if (val === '--domain' && isValid(array[index + 1], 'domain')) {
-    currentConfig.domain = array[index + 1];
+    currentConfig.domain = array[index + 1]
   }
 
-  return currentConfig;
+  return currentConfig
 }, {
   domain: 'dev',
   hostname: process.cwd().split(path.sep).pop()
-});
+})
 
 runSeries(
   commands.config(config),
@@ -104,16 +109,16 @@ ${colors.white}
   1. Drag and drop the created .crt file into Keychain Access -> Certificates
   2. Double click added certificate -> Trust section
   3. Change to always trust
-`);
+`)
   return pause()
 })
-.catch(logAndAbort)
+.catch(abort)
 .then(() => run(
   commands.keychain,
   commands.folder
 ))
 .then(() => {
-  console.log(colors.cyan, 'Note!', colors.white, 'Make sure you are running "dnsmasq" as described here: https://github.com/christianalfoni/create-ssl-certificate')
+  console.log(colors.cyan + 'Note!', colors.white, 'Make sure you are running "dnsmasq" as described here: https://github.com/christianalfoni/create-ssl-certificate')
   process.exit(0)
 })
 .catch(logAndAbort)
