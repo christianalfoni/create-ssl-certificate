@@ -58,7 +58,7 @@ function pause () {
     process.stdin.setRawMode(true);
     process.stdin.resume();
     process.stdin.on('data', buffer => {
-      return buffer[0] === 3 ? reject() : resolve()
+      return buffer[0] === 3 ? reject('Ok, aborted opening the keychain.') : resolve()
     });
   })
 }
@@ -75,6 +75,11 @@ function isValid(text, type) {
 function logAndAbort (error) {
   console.log(colors.red, `Something wrong happened, ${error.message}`)
   process.exit(1)
+}
+
+function abort (message) {
+  console.log(colors.red, message)
+  process.exit(0)
 }
 
 const config = process.argv.reduce((currentConfig, val, index, array) => {
@@ -107,7 +112,7 @@ ${colors.white}
 `);
   return pause()
 })
-.catch(logAndAbort)
+.catch(abort)
 .then(() => run(
   commands.keychain,
   commands.folder
