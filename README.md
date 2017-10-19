@@ -42,8 +42,8 @@ brew install dnsmasq
 
 **Note!** Make sure you follow the instructions to start the service when your mac boots up.
 
-To route all `.dev` lookups to localhost you will have to add configuration.
-Replace `dev` in both echo commands if you chose something different
+To route all domain lookups to localhost you will have to add configuration.
+Replace `dev` in both echo commands if you chose a different domain.
 
 ```sh
 mkdir -pv $(brew --prefix)/etc

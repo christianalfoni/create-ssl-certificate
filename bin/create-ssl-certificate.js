@@ -99,7 +99,7 @@ run(commands.config('dev'))
   console.log('\n')
   console.log(colors.green, 'Certificate created successfully!', colors.cyan, 'Press any key to open Keychain Access and this folder, then:')
   console.log(colors.white, `
-    1. Drag and drop the created .crf file into Keychain Access -> Certificates
+    1. Drag and drop the created .crt file into Keychain Access -> Certificates
     2. Double click added certificate -> Trust section
     3. Change to always trust
   `)
