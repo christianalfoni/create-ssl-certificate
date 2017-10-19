@@ -33,7 +33,13 @@ This will create a certificate for the domain: **myproject.test** and any subdom
 
 ## Requirement
 
-You will need to install [dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html) which will route your
+You will need to route your domain to localhost. You could manually fix this by adding
+
+```
+127.0.0.1    myproject.dev
+```
+
+to your `/etc/hosts/` file. Or you can handle this automatically by using [dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html), which will route your
 domain to localhost. You can install it via [homebrew](https://brew.sh/index_no.html).
 
 ```sh
