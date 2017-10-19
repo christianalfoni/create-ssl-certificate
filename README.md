@@ -35,13 +35,13 @@ This will create a certificate for the domain: **myproject.test** and any subdom
 
 ### Simple setup
 
-This setup only works for the specific hostname and no subdomains. Add the following:
+This setup only works for the specific hostname and no subdomains. Add the following, where you replace hostname and top level domin name to your own configuration:
 
 ```
 127.0.0.1    myproject.dev
 ```
 
-to your `/etc/hosts/` file.
+to your `/etc/hosts` file.
 
 ### Universal setup
 You can do a "one time" setup, which works on all hostnames for the given top level domain, etc. `.dev`. A good solution is [dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html). Install it via [homebrew](https://brew.sh/index_no.html).

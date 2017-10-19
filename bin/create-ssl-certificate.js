@@ -13,7 +13,7 @@ const colors = {
 }
 
 const commands = {
-  config () {
+  config() {
     return `cat > openssl.cnf <<-EOF
 [req]
 distinguished_name = req_distinguished_name
@@ -81,7 +81,7 @@ process.argv.forEach(function (val, index, array) {
 });
 
 runSeries(
-  commands.config(domain),
+  commands.config(),
   commands.ssl,
   commands.clean
 )
