@@ -31,29 +31,43 @@ npx create-ssl-certificate --hostname myproject --domain test
 
 This will create a certificate for the domain: **myproject.test** and any subdomain.
 
-## Requirement
+## Route to localhost
 
-You will need to route your domain to localhost. You could manually fix this by adding
+### Simple setup
+
+This setup only works for the specific hostname and no subdomains. Add the following:
 
 ```
 127.0.0.1    myproject.dev
 ```
 
-to your `/etc/hosts/` file. Or you can handle this automatically by using [dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html), which will route your
-domain to localhost. You can install it via [homebrew](https://brew.sh/index_no.html).
+to your `/etc/hosts/` file.
+
+### Universal setup
+You can do a "one time" setup, which works on all hostnames for the given top level domain, etc. `.dev`. A good solution is [dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html). Install it via [homebrew](https://brew.sh/index_no.html).
 
 ```sh
 brew install dnsmasq
 ```
 
-**Note!** Make sure you follow the instructions to start the service when your mac boots up.
+To make it start when your mac boots up:
 
-To route all domain lookups to localhost you will have to add configuration.
-Replace `dev` in both echo commands if you chose a different domain.
+```sh
+brew services start dnsmasq
+```
+
+To route all top level domain lookups to localhost you will have to run these commands.
+Replace `dev` in both echo commands if you chose a different top level domain.
 
 ```sh
 mkdir -pv $(brew --prefix)/etc
 sudo mkdir -pv /etc/resolver
 echo "address=/.dev/127.0.0.1" | sudo tee -a $(brew --prefix)/etc/dnsmasq.conf
 echo "nameserver 127.0.0.1" | sudo tee /etc/resolver/dev
+```
+
+This will probably require a restart of the service.
+
+```sh
+brew services restart dnsmasq
 ```
