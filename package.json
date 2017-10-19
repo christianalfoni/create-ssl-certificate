@@ -1,0 +1,27 @@
+{
+  "name": "create-ssl-certificate",
+  "version": "1.0.0",
+  "description": "Command line tool to create self signed SSL certificate",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/christianalfoni/create-ssl-certificate.git"
+  },
+  "bin": {
+    "create-ssl-certificate": "bin/create-ssl-certificate.js"
+  },
+  "keywords": [
+    "ssl",
+    "certificate",
+    "signed"
+  ],
+  "author": "christianalfoni",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/christianalfoni/create-ssl-certificate/issues"
+  },
+  "homepage": "https://github.com/christianalfoni/create-ssl-certificate#readme"
+}
