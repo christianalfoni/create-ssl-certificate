@@ -65,7 +65,7 @@ function pause () {
 
 function isValid(text, type) {
   if (typeof text !== 'string' || !text.match(/^[a-zA-Z]+$/)) {
-    console.log(colors.red, `You did not pass in a valid ${type}`)
+    console.error(colors.red + `You did not pass in a valid ${type}`)
     process.exit(1)
   }
 
@@ -73,12 +73,12 @@ function isValid(text, type) {
 }
 
 function logAndAbort (error) {
-  console.log(colors.red, `Something wrong happened, ${error.message}`)
+  console.error(colors.red + `Something wrong happened, ${error.message}`)
   process.exit(1)
 }
 
 function abort (message) {
-  console.log(colors.red, message)
+  console.log(colors.red + message)
   process.exit(0)
 }
 
@@ -109,7 +109,7 @@ ${colors.white}
   1. Drag and drop the created .crt file into Keychain Access -> Certificates
   2. Double click added certificate -> Trust section
   3. Change to always trust
-`);
+`)
   return pause()
 })
 .catch(abort)
@@ -118,7 +118,7 @@ ${colors.white}
   commands.folder
 ))
 .then(() => {
-  console.log(colors.cyan, 'Note!', colors.white, 'Make sure you are running "dnsmasq" as described here: https://github.com/christianalfoni/create-ssl-certificate')
+  console.log(colors.cyan + 'Note!', colors.white, 'Make sure you are running "dnsmasq" as described here: https://github.com/christianalfoni/create-ssl-certificate')
   process.exit(0)
 })
 .catch(logAndAbort)
