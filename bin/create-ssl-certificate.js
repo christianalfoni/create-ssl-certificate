@@ -104,7 +104,9 @@ runSeries(
 )
 .then(() => {
   console.log(`
-${colors.green}Certificate created successfully! ${colors.cyan}Press any key to open Keychain Access and this folder, then:
+${colors.green}✅  Certificate for ${config.hostname}.${config.domain} created successfully!
+
+${colors.cyan}Press any key to open Keychain Access and this folder, then:
 ${colors.white}
   1. Drag and drop the created .crt file into Keychain Access -> Certificates
   2. Double click added certificate -> Trust section
@@ -118,7 +120,11 @@ ${colors.white}
   commands.folder
 ))
 .then(() => {
-  console.log(colors.cyan + 'Note!', colors.white, 'Make sure you are routing this domain to localhost. More info: https://github.com/christianalfoni/create-ssl-certificate')
+  console.log(
+    colors.cyan + 'ℹ️  Note!' + colors.white,
+    `Make sure you are routing ${colors.cyan}${config.hostname}.${config.domain}${colors.white} to localhost.
+More info: https://github.com/christianalfoni/create-ssl-certificate`
+  )
   process.exit(0)
 })
 .catch(logAndAbort)
