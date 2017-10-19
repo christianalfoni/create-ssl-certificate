@@ -1,9 +1,8 @@
 #! /usr/bin/env node
 const promisify = require('util').promisify;
 const exec = require('child_process').exec;
+const path = require('path');
 
-let domain = 'dev'
-let hostname = null
 const colors = {
   white: '\x1b[37m',
   green: '\x1b[32m',
@@ -13,21 +12,21 @@ const colors = {
 }
 
 const commands = {
-  config() {
+  config(config) {
     return `cat > openssl.cnf <<-EOF
 [req]
 distinguished_name = req_distinguished_name
 x509_extensions = v3_req
 prompt = no
 [req_distinguished_name]
-CN = *.\${PWD##*/}.${domain}
+CN = *.${config.hostname}.${config.domain}
 [v3_req]
 keyUsage = keyEncipherment, dataEncipherment
 extendedKeyUsage = serverAuth
 subjectAltName = @alt_names
 [alt_names]
-DNS.1 = *.\${PWD##*/}.${domain}
-DNS.2 = \${PWD##*/}.${domain}
+DNS.1 = *.${config.hostname}.${config.domain}
+DNS.2 = ${config.hostname}.${config.domain}
 EOF`
   },
   ssl: `openssl req \
@@ -69,19 +68,32 @@ function isValid(text, type) {
     console.log(colors.red, `You did not pass in a valid ${type}`)
     process.exit(1)
   }
+
+  return true;
 }
 
-process.argv.forEach(function (val, index, array) {
+function logAndAbort (error) {
+  console.log(colors.red, `Something wrong happened, ${error.message}`)
+  process.exit(1)
+}
+
+const config = process.argv.reduce((currentConfig, val, index, array) => {
   if (val === '--hostname' && isValid(array[index + 1], 'hostname')) {
-    hostname = array[index + 1]
+    currentConfig.hostname = array[index + 1];
   }
+
   if (val === '--domain' && isValid(array[index + 1], 'domain')) {
-    domain = array[index + 1]
+    currentConfig.domain = array[index + 1];
   }
+
+  return currentConfig;
+}, {
+  domain: 'dev',
+  hostname: process.cwd().split(path.sep).pop()
 });
 
 runSeries(
-  commands.config(),
+  commands.config(config),
   commands.ssl,
   commands.clean
 )
@@ -95,7 +107,7 @@ ${colors.white}
 `);
   return pause()
 })
-.catch(() => process.exit(0))
+.catch(logAndAbort)
 .then(() => run(
   commands.keychain,
   commands.folder
@@ -104,7 +116,4 @@ ${colors.white}
   console.log(colors.cyan, 'Note!', colors.white, 'Make sure you are running "dnsmasq" as described here: https://github.com/christianalfoni/create-ssl-certificate')
   process.exit(0)
 })
-.catch((error) => {
-  console.log(colors.red, `Something wrong happened, ${error.message}`)
-  process.exit(1)
-})
+.catch(logAndAbort)
