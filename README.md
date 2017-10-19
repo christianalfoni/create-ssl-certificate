@@ -1,7 +1,13 @@
 # create-ssl-certificate
 Command line tool to create self signed SSL certificate
 
-**NOTE!** This only works on MAC! Based on the following [amazing GIST](https://gist.github.com/jed/6147872).
+Based on the following [amazing GIST](https://gist.github.com/jed/6147872).
+
+**NOTE!**
+
+1. This only works on MAC!
+
+2. Requires Node version 8 or higher
 
 ## Create
 

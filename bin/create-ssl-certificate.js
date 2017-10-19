@@ -58,7 +58,7 @@ function pause () {
     process.stdin.setRawMode(true)
     process.stdin.resume()
     process.stdin.on('data', buffer => {
-      return buffer[0] === 3 ? reject('Ok, aborted opening the keychain.') : resolve()
+      return buffer[0] === 3 ? reject('Ok, aborted opening Keychain Access and folder') : resolve()
     })
   })
 }
@@ -118,7 +118,7 @@ ${colors.white}
   commands.folder
 ))
 .then(() => {
-  console.log(colors.cyan + 'Note!', colors.white, 'Make sure you are running "dnsmasq" as described here: https://github.com/christianalfoni/create-ssl-certificate')
+  console.log(colors.cyan + 'Note!', colors.white, 'Make sure you are routing this domain to localhost. More info: https://github.com/christianalfoni/create-ssl-certificate')
   process.exit(0)
 })
 .catch(logAndAbort)
