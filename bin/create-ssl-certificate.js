@@ -1,7 +1,7 @@
 #! /usr/bin/env node
-const promisify = require('util').promisify;
-const exec = promisify(require('child_process').exec);
-const path = require('path');
+const promisify = require('util').promisify
+const exec = promisify(require('child_process').exec)
+const path = require('path')
 
 const colors = {
   white: '\x1b[37m',
@@ -55,11 +55,11 @@ function runSeries (...commands) {
 
 function pause () {
   return new Promise((resolve, reject) => {
-    process.stdin.setRawMode(true);
-    process.stdin.resume();
+    process.stdin.setRawMode(true)
+    process.stdin.resume()
     process.stdin.on('data', buffer => {
       return buffer[0] === 3 ? reject('Ok, aborted opening the keychain.') : resolve()
-    });
+    })
   })
 }
 
@@ -69,7 +69,7 @@ function isValid(text, type) {
     process.exit(1)
   }
 
-  return true;
+  return true
 }
 
 function logAndAbort (error) {
@@ -84,18 +84,18 @@ function abort (message) {
 
 const config = process.argv.reduce((currentConfig, val, index, array) => {
   if (val === '--hostname' && isValid(array[index + 1], 'hostname')) {
-    currentConfig.hostname = array[index + 1];
+    currentConfig.hostname = array[index + 1]
   }
 
   if (val === '--domain' && isValid(array[index + 1], 'domain')) {
-    currentConfig.domain = array[index + 1];
+    currentConfig.domain = array[index + 1]
   }
 
-  return currentConfig;
+  return currentConfig
 }, {
   domain: 'dev',
   hostname: process.cwd().split(path.sep).pop()
-});
+})
 
 runSeries(
   commands.config(config),
