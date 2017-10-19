@@ -1,6 +1,6 @@
 #! /usr/bin/env node
 const promisify = require('util').promisify;
-const exec = require('child_process').exec;
+const exec = promisify(require('child_process').exec);
 const path = require('path');
 
 const colors = {
