@@ -40,8 +40,7 @@ EOF`
 -out ssl.crt \
 -config openssl.cnf`,
   clean: 'rm openssl.cnf',
-  keychain: 'open /Applications/Utilities/Keychain\\ Access.app ssl.crt',
-  folder: 'open .'
+  keychain: 'open /Applications/Utilities/Keychain\\ Access.app ssl.crt'
 }
 
 function run (...commands) {
@@ -104,21 +103,23 @@ runSeries(
 )
 .then(() => {
   console.log(`
-${colors.green}Certificate created successfully! ${colors.cyan}Press any key to open Keychain Access and this folder, then:
-${colors.white}
-  1. Drag and drop the created .crt file into Keychain Access -> Certificates
-  2. Double click added certificate -> Trust section
-  3. Change to always trust
+${colors.green}✔ ${colors.white}Certificate for ${colors.green}*.${config.hostname}.${config.domain} ${colors.white}created successfully!
+
+${colors.cyan}Press any key ${colors.white}to open Keychain Access, then:
+
+  1. Double click added certificate and expand the "Trust" section
+  2. Change to "Always trust" on first dropdown
+  3. If your certificate is not there you can drag and drop "ssl.crt" from this folder into Keychain Access
+
+${colors.cyan}Note! ${colors.white}Make sure the domain is routed to localhost. More info: ${colors.cyan}https://github.com/christianalfoni/create-ssl-certificate
 `)
   return pause()
 })
 .catch(abort)
 .then(() => run(
-  commands.keychain,
-  commands.folder
+  commands.keychain
 ))
 .then(() => {
-  console.log(colors.cyan + 'Note!', colors.white, 'Make sure you are routing this domain to localhost. More info: https://github.com/christianalfoni/create-ssl-certificate')
   process.exit(0)
 })
 .catch(logAndAbort)
