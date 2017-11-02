@@ -39,7 +39,9 @@ This will create a certificate for the domain: **myproject.test** and any subdom
 
 ## Route to localhost
 
-### Simple setup
+You choose **either** 1. or 2.
+
+### 1. Simple setup
 
 This setup only works for the specific hostname and no subdomains. Add the following, where you replace hostname and top level domin name to your own configuration:
 
@@ -49,7 +51,7 @@ This setup only works for the specific hostname and no subdomains. Add the follo
 
 to your `/etc/hosts` file.
 
-### Universal setup
+### 2. Universal setup
 You can do a "one time" setup, which works on all hostnames for the given top level domain, etc. `.dev`. A good solution is [dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html). Install it via [homebrew](https://brew.sh/index_no.html).
 
 ```sh
@@ -74,8 +76,4 @@ echo "address=/.dev/127.0.0.1" | sudo tee -a $(brew --prefix)/etc/dnsmasq.conf
 echo "nameserver 127.0.0.1" | sudo tee /etc/resolver/dev
 ```
 
-This might require a restart of the service.
-
-```sh
-brew services restart dnsmasq
-```
+You usually have to **restart** your computer for this to take proper effect.
