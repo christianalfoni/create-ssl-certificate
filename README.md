@@ -67,12 +67,14 @@ Replace `dev` in both echo commands if you chose a different top level domain.
 
 ```sh
 mkdir -pv $(brew --prefix)/etc
+sudo cp -v $(brew --prefix dnsmasq)/homebrew.mxcl.dnsmasq.plist /Library/LaunchDaemons
+sudo launchctl load -w /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist
 sudo mkdir -pv /etc/resolver
 echo "address=/.dev/127.0.0.1" | sudo tee -a $(brew --prefix)/etc/dnsmasq.conf
 echo "nameserver 127.0.0.1" | sudo tee /etc/resolver/dev
 ```
 
-This will probably require a restart of the service.
+This might require a restart of the service.
 
 ```sh
 brew services restart dnsmasq
