@@ -62,9 +62,18 @@ function pause () {
   })
 }
 
-function isValid(text, type) {
+function isValidHostname(text) {
+  if (typeof text !== 'string' || !text.match(/^[a-zA-Z\-]+$/)) {
+    console.error(colors.red + `You did not pass in a valid hostname`)
+    process.exit(1)
+  }
+
+  return true
+}
+
+function isValidDomain(text) {
   if (typeof text !== 'string' || !text.match(/^[a-zA-Z]+$/)) {
-    console.error(colors.red + `You did not pass in a valid ${type}`)
+    console.error(colors.red + `You did not pass in a valid domain`)
     process.exit(1)
   }
 
@@ -82,11 +91,11 @@ function abort (message) {
 }
 
 const config = process.argv.reduce((currentConfig, val, index, array) => {
-  if (val === '--hostname' && isValid(array[index + 1], 'hostname')) {
+  if (val === '--hostname' && isValidHostname(array[index + 1])) {
     currentConfig.hostname = array[index + 1]
   }
 
-  if (val === '--domain' && isValid(array[index + 1], 'domain')) {
+  if (val === '--domain' && isValidDomain(array[index + 1])) {
     currentConfig.domain = array[index + 1]
   }
 
