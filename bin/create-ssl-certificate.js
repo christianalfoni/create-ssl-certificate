@@ -21,7 +21,7 @@ prompt = no
 [req_distinguished_name]
 CN = *.${config.hostname}.${config.domain}
 [v3_req]
-keyUsage = keyEncipherment, dataEncipherment
+keyUsage = digitalSignature, keyEncipherment, dataEncipherment
 extendedKeyUsage = serverAuth
 subjectAltName = @alt_names
 [alt_names]
