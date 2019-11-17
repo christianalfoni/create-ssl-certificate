@@ -63,7 +63,7 @@ function pause () {
 }
 
 function isValidHostname(text) {
-  if (typeof text !== 'string' || !text.match(/^[a-zA-Z\-]+$/)) {
+    if (typeof text !== 'string' || !text.match(/^[a-zA-Z\-0-9]+$/)) {
     console.error(colors.red + `You did not pass in a valid hostname`)
     process.exit(1)
   }
