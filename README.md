@@ -17,7 +17,7 @@ In the folder of your project use the **NPM executer**:
 npx create-ssl-certificate
 ```
 
-This will create a certificate for the domain: **FOLDER_NAME.local** and any subdomain.
+This will create a certificate for the domain: **FOLDER_NAME.test** and any subdomain.
 
 ## Options
 
@@ -27,15 +27,15 @@ This will create a certificate for the domain: **FOLDER_NAME.local** and any sub
 npx create-ssl-certificate --hostname myproject
 ```
 
-This will create a certificate for the domain: **myproject.local** and any subdomain.
+This will create a certificate for the domain: **myproject.test** and any subdomain.
 
 ### Domain
 
 ```sh
-npx create-ssl-certificate --hostname myproject --domain test
+npx create-ssl-certificate --hostname myproject --domain localhost
 ```
 
-This will create a certificate for the domain: **myproject.test** and any subdomain.
+This will create a certificate for the domain: **myproject.test** and any subdomain.  Only `test` and `localhost` are recommended because they are specifically reserved as [special-use domains](https://tools.ietf.org/html/rfc6761).
 
 ## Route to localhost
 
@@ -46,13 +46,13 @@ You choose **either** 1. or 2.
 This setup only works for the specific hostname and no subdomains. Add the following, where you replace hostname and top level domin name to your own configuration:
 
 ```
-127.0.0.1    myproject.local
+127.0.0.1    myproject.test
 ```
 
 to your `/etc/hosts` file.
 
 ### 2. Universal setup
-You can do a "one time" setup, which works on all hostnames for the given top level domain, etc. `.local`. A good solution is [dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html). Install it via [homebrew](https://brew.sh/index_no.html).
+You can do a "one time" setup, which works on all hostnames for the given top level domain, etc. `.test`. A good solution is [dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html). Install it via [homebrew](https://brew.sh/index_no.html).
 
 ```sh
 brew install dnsmasq
@@ -65,15 +65,15 @@ brew services start dnsmasq
 ```
 
 To route all top level domain lookups to localhost you will have to run these commands.
-Replace `local` in both echo commands if you chose a different top level domain.
+Replace `test` in both echo commands if you chose a different top level domain.
 
 ```sh
 mkdir -pv $(brew --prefix)/etc
 sudo cp -v $(brew --prefix dnsmasq)/homebrew.mxcl.dnsmasq.plist /Library/LaunchDaemons
 sudo launchctl load -w /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist
 sudo mkdir -pv /etc/resolver
-echo "address=/.local/127.0.0.1" | sudo tee -a $(brew --prefix)/etc/dnsmasq.conf
-echo "nameserver 127.0.0.1" | sudo tee /etc/resolver/local
+echo "address=/.test/127.0.0.1" | sudo tee -a $(brew --prefix)/etc/dnsmasq.conf
+echo "nameserver 127.0.0.1" | sudo tee /etc/resolver/test
 ```
 
 You usually have to **restart** your computer for this to take proper effect.
