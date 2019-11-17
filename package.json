@@ -1,6 +1,6 @@
 {
   "name": "create-ssl-certificate",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "Command line tool to create self signed SSL certificate",
   "main": "index.js",
   "engines" : {
