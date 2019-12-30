@@ -1,10 +1,10 @@
 {
   "name": "create-ssl-certificate",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Command line tool to create self signed SSL certificate",
   "main": "index.js",
-  "engines" : {
-    "node" : ">=8.7.0"
+  "engines": {
+    "node": ">=8.7.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
