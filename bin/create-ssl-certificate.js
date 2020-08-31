@@ -41,8 +41,7 @@ EOF`
 -keyout ssl.key \
 -out ssl.crt \
 -config openssl.cnf`,
-  clean: 'rm openssl.cnf',
-  keychain: 'open /Applications/Utilities/Keychain\\ Access.app ssl.crt'
+  clean: 'rm openssl.cnf'
 }
 
 function run (...commands) {
@@ -52,16 +51,6 @@ function runSeries (...commands) {
   return commands.reduce((p, cmd) =>
     p.then(() => exec(cmd)), Promise.resolve()
   )
-}
-
-function pause () {
-  return new Promise((resolve, reject) => {
-    process.stdin.setRawMode(true)
-    process.stdin.resume()
-    process.stdin.on('data', buffer => {
-      return buffer[0] === 3 ? reject('Ok, aborted opening Keychain Access and folder') : resolve()
-    })
-  })
 }
 
 function isValidHostname(text) {
@@ -116,20 +105,12 @@ runSeries(
   console.log(`
 ${colors.green}✔ ${colors.white}Certificate for ${colors.green}*.${config.hostname}.${config.domain} ${colors.white}created successfully!
 
-${colors.cyan}Press any key ${colors.white}to open Keychain Access, then:
-
-  1. Double click added certificate and expand the "Trust" section
-  2. Change to "Always trust" on first dropdown
-  3. If your certificate is not there you can drag and drop "ssl.crt" from this folder into Keychain Access
+${colors.green}OPEN${colors.white} the "Keychain Access" app on your Mac. Then open "Finder" and drag the created certificate (.crt) into the "System" - "Certificates" list.
 
 ${colors.cyan}Note! ${colors.white}Make sure the domain is routed to localhost. More info: ${colors.cyan}https://github.com/christianalfoni/create-ssl-certificate
 `)
-  return pause()
 })
 .catch(abort)
-.then(() => run(
-  commands.keychain
-))
 .then(() => {
   process.exit(0)
 })
