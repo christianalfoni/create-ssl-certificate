@@ -21,7 +21,9 @@ prompt = no
 [req_distinguished_name]
 CN = *.${config.hostname}.${config.domain}
 [v3_req]
-keyUsage = digitalSignature, keyEncipherment, dataEncipherment
+basicConstraints=critical,CA:FALSE
+authorityKeyIdentifier=keyid,issuer
+keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
 extendedKeyUsage = serverAuth
 subjectAltName = @alt_names
 [alt_names]
@@ -31,11 +33,11 @@ EOF`
   },
   ssl: `openssl req \
 -new \
--newkey rsa:2048 \
--sha1 \
--days 3650 \
--nodes \
 -x509 \
+-newkey rsa:4096 \
+-sha256 \
+-days 7000 \
+-nodes \
 -keyout ssl.key \
 -out ssl.crt \
 -config openssl.cnf`,
