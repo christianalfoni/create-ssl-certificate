@@ -11,6 +11,9 @@ const colors = {
   default: '\x1b[0m'
 }
 
+const CRT_NAME = 'ssl'
+const KEY_NAME = 'ssl'
+
 const commands = {
   config(config) {
     return `cat > openssl.cnf <<-EOF
@@ -38,8 +41,8 @@ EOF`
 -sha256 \
 -days 7000 \
 -nodes \
--keyout ssl.key \
--out ssl.crt \
+-keyout ${KEY_NAME}.key \
+-out ${CRT_NAME}.crt \
 -config openssl.cnf`,
   clean: 'rm openssl.cnf'
 }
@@ -104,6 +107,9 @@ runSeries(
 .then(() => {
   console.log(`
 ${colors.green}✔ ${colors.white}Certificate for ${colors.green}*.${config.hostname}.${config.domain} ${colors.white}created successfully!
+
+- ${CRT_NAME}.crt
+- ${KEY_NAME}.key
 
 ${colors.green}OPEN${colors.white} the "Keychain Access" app on your Mac. Then open "Finder" and drag the created certificate (.crt) into the "System" - "Certificates" list.
 
